@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import jhonerodrigues.com.passin.dto.attendee.AttendeeIdDTO;
+import jhonerodrigues.com.passin.dto.attendee.AttendeeRequestDTO;
 import jhonerodrigues.com.passin.dto.attendee.AttendeesListResponseDTO;
 import jhonerodrigues.com.passin.dto.event.EventIdDTO;
 import jhonerodrigues.com.passin.dto.event.EventRequestDTO;
@@ -40,9 +42,18 @@ public class EventController {
 		return ResponseEntity.created(uri).body(eventIdDTO);
 	}
 	
-	@GetMapping("/attendees/{id}")
-	public ResponseEntity<AttendeesListResponseDTO> getEventAttendees(@PathVariable String id){
-		AttendeesListResponseDTO attendeeListResponse = this.attendeeService.getEventsAttendee(id);
+	@PostMapping("/{eventId}/attendees")
+	public ResponseEntity<AttendeeIdDTO> registerParticipant(@PathVariable String eventId, @RequestBody AttendeeRequestDTO attendeeRequest, UriComponentsBuilder uriComponentsBuilder){
+		AttendeeIdDTO attendeeIdDTO = this.eventService.registerAttendeeOnEvent(eventId, attendeeRequest);
+		
+		var uri = uriComponentsBuilder.path("/attendees/{attendeeId}/badge").buildAndExpand(attendeeIdDTO.id()).toUri();
+		
+		return ResponseEntity.created(uri).body(attendeeIdDTO);
+	}
+	
+	@GetMapping("/attendees/{eventId}")
+	public ResponseEntity<AttendeesListResponseDTO> getEventAttendees(@PathVariable String eventId){
+		AttendeesListResponseDTO attendeeListResponse = this.attendeeService.getEventsAttendee(eventId);
 		return ResponseEntity.ok().body(attendeeListResponse);
 	}
 }
