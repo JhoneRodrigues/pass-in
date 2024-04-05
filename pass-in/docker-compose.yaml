@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  db-pass-in:
+      image: postgres:16.2-alpine
+      restart: always
+      container_name: db-pass-in
+      ports:
+        - "5434:5432"
+      volumes:
+        - ./dadosPostgres:/var/lib/postgresql/data
+      environment:
+        POSTGRES_USER: admin
+        POSTGRES_PASSWORD: admin
+        POSTGRES_DB: pass-in
+      networks:
+        - net
+
+  api-pass-in:
+      build:
+        context: .
+      container_name: api-pass-in
+      ports:
+        - "8080:8080"
+      networks:
+        - net
+      depends_on:
+        - db-pass-in
+networks:
+  net:
+    driver: bridge

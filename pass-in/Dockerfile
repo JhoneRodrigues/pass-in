@@ -1,5 +1,6 @@
-FROM openjdk:17-openjdk
+FROM openjdk:17-jdk-alpine
 
-COPY /target/pass-in-0.0.1-SNAPSHOT.jar /app/pass-in.jar
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} /app/pass-in.jar
 
-CMD ["java", "-jar", "pass-in.jar"]
+CMD ["java", "-jar", "/app/pass-in.jar"]
