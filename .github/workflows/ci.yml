@@ -24,4 +24,4 @@ jobs:
         echo "sha=$SHA" >> $GITHUB_OUTPUT
 
     - name: Build docker image
-      run: docker build -t jhonerodrigues/nlw.service.passin:${{ steps.generate_sha.outputs.sha }} .
+      run: docker build -t jhonerodrigues/nlw.service.passin:${{ steps.generate_sha.outputs.sha }} ./pass-in
