@@ -11,7 +11,7 @@ on:
 jobs:
   build-and-push:
     name: 'Build and Push'
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
@@ -20,7 +20,7 @@ jobs:
     - name: Generate sha
       id: generate_sha
       run: |
-        SHA=$(echo $GITHUB_SHA | head c7)
+        SHA=$(echo $GITHUB_SHA | head -c7)
         echo "sha=$SHA" >> $GITHUB_OUTPUT
 
     - name: Build docker image
