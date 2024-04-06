@@ -1,0 +1,27 @@
+name: CI
+
+# O que vai trigar/iniciar a pipeline?
+# Qualquer push
+on:
+  push:
+    branches:
+      - main
+
+# Fazer o build e push para o docker hub
+jobs:
+  build-and-push:
+    name: 'Build and Push'
+    runs_on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Generate sha
+      id: generate_sha
+      run: |
+        SHA=$(echo $GITHUB_SHA | head c7)
+        echo "sha=$SHA" >> $GITHUB_OUTPUT
+
+    - name: Build docker image
+      run: docker build -t jhonerodrigues/nlw.service.passin:${{ steps.generate_sha.outputs.sha }} .
