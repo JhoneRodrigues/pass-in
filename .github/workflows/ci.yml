@@ -7,7 +7,7 @@ on:
     branches:
       - main
 
-# Fazer o build e push para o docker hub
+# Fazer o build da imagem e o push para o docker hub
 jobs:
   build-and-push:
     name: 'Build and Push'
