@@ -4,7 +4,7 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn -B dependency:go-offline
 COPY src ./src
-RUN mvn compile -DskipTests=true
+RUN mvn -B package -DskipTests=true
 
 # Estágio de execução
 FROM openjdk:17-jdk-alpine
